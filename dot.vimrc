@@ -57,6 +57,10 @@ augroup InsertHook
     autocmd InsertEnter * call ImeAutoOn()
 augroup END
 
+
+nnoremap <silent> <Leader>o :<C-u>Unite -vertical -no-quit outline<CR>
+
+
 """"""""""""""""""""""""""""""""""""
 " vim-jetpack
 """"""""""""""""""""""""""""""""""""
@@ -64,7 +68,10 @@ packadd vim-jetpack
 call jetpack#begin()
 Jetpack 'tani/vim-jetpack', {'opt': 1} "bootstrap
 Jetpack 'mattn/vim-sonictemplate'
-Jetpack 'violetyk/iikanji-markdown.vim'
-"Jetpack 'godlygeek/tabular'
-"Jetpack 'preservim/vim-markdown'
+Jetpack 'plasticboy/vim-markdown'
+Jetpack 'godlygeek/tabular'
+"Jetpack 'tpope/vim-surround'
+"Jetpack 'scrooloose/nerdtree'
+"Jetpack 'kien/ctrlp.vim'
+
 call jetpack#end()
