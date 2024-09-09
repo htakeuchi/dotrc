@@ -32,32 +32,80 @@ inoremap <silent> <C-n> <Cmd>normal! gj<CR>
 " 保存
 inoremap <C-s> <C-o>:w<CR>
 
-if has('macunix')
-else
-    command! ImeOff silent !imectrl 0
-    command! ImeOn silent !imectrl 1
 
-    function! ImeAutoOff()
-        let w:ime_status=system('imests')
-        :silent ImeOff
-    endfunction
+let g:is_macos = has('mac')
+nnoremap <silent><expr> <F2> IME_toggle()
+inoremap <silent><expr> <F2> IME_toggle()
 
-    function! ImeAutoOn()
-        if !exists('w:ime_status')
-            let w:ime_status=0
-        endif
-        if w:ime_status == 1
-            :silent ImeOn
-        endif
-    endfunction
+augroup IME_autotoggle
+  autocmd!
+  autocmd InsertEnter * if get(b:, 'IME_autoenable', v:false) | call Enable() | endif
+  autocmd InsertLeave * call Disable()
+  autocmd CmdLineEnter /,\? if get(b:, 'IME_autoenable', v:false) | cnoremap <CR> <Plug>(kensaku-search-replace)<CR>| endif
+  autocmd CmdLineEnter /,\? if !get(b:, 'IME_autoenable', v:false) | silent! cunmap <CR> | endif
+augroup END
 
-    " IME off when in insert mode
-    augroup InsertHook
-        autocmd!
-        autocmd InsertLeave * call ImeAutoOff()
-        autocmd InsertEnter * call ImeAutoOn()
-    augroup END
-endif
+function! IME_toggle() abort
+  let b:IME_autoenable = !get(b:, 'IME_autoenable', v:false)
+  if b:IME_autoenable ==# v:true
+    echomsg '日本語入力モードON'
+    if mode() == 'i'
+      call Enable()
+    endif
+  else
+    echo '日本語入力モードOFF'
+    if mode() == 'i'
+      call Disable()
+    endif
+  endif
+  return ''
+endfunction
+
+function! Enable() abort
+  if has('mac')
+    call system('/path/to/im-select com.justsystems.inputmethod.atok33.Japanese')
+  elseif has('windows')
+    call system('zenhan 1')
+  else
+    call system('imectrl 1')
+  endif
+endfunction
+
+function! Disable() abort
+  if has('mac')
+    call system('/path/to/im-select com.apple.keylayout.ABC')
+  elseif has('windows')
+    call system('zenhan 0')
+  else
+    call system('imectrl 0')
+  endif
+endfunction
+
+"if has('unix')
+"    command! ImeOff silent !imectrl 0
+"    command! ImeOn silent !imectrl 1
+"
+"    function! ImeAutoOff()
+"        let w:ime_status=system('imests')
+"       :silent ImeOff
+"    endfunction
+"
+"    function! ImeAutoOn()
+"        if !exists('w:ime_status')
+"            let w:ime_status=0
+"        endif
+"        if w:ime_status == 1
+"            :silent ImeOn
+"        endif
+"    endfunction
+"
+"    " IME off when in insert mode
+"    augroup InsertHook
+"        autocmd!
+"        autocmd InsertLeave * call ImeAutoOff()
+"        autocmd InsertEnter * call ImeAutoOn()
+"    augroup END
+"endif
 
 nnoremap <silent> <Leader>o :<C-u>Unite -vertical -no-quit outline<CR>
 
