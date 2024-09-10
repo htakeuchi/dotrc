@@ -7,7 +7,7 @@ set smartindent
 set laststatus=1
 set number
 syntax enable
-colorscheme industry
+colorscheme pablo
 
 if has('persistent_undo')
     let undo_path = expand('~/.vim/undo')
@@ -16,7 +16,7 @@ if has('persistent_undo')
 endif
 
 " let NERDTreeShowHidden=0
-
+let mapleader = " "
 map <C-z> :NERDTreeToggle<CR>
 map <C-a> <Home>
 map <C-e> <End>
@@ -26,9 +26,11 @@ map <C-s> <C-o>:w<CR>
 map <C-l> gt
 map <C-h> gT
 
-let g:is_macos = has('mac')
 nnoremap <silent><expr> <F2> IME_toggle()
 inoremap <silent><expr> <F2> IME_toggle()
+nnoremap <Leader>mn  :MemoNew<CR>
+nnoremap <Leader>ml  :MemoList<CR>
+nnoremap <Leader>mg  :MemoGrep<CR>
 
 augroup IME_autotoggle
   autocmd!
@@ -56,7 +58,7 @@ endfunction
 
 function! Enable() abort
   if has('mac')
-    call system('/path/to/im-select com.justsystems.inputmethod.atok33.Japanese')
+    " Karabina
   elseif has('unix')
     call system('imectrl 1')
   else
@@ -66,7 +68,7 @@ endfunction
 
 function! Disable() abort
   if has('mac')
-    call system('/path/to/im-select com.apple.keylayout.ABC')
+    " Karabina
   elseif has('unix')
     call system('imectrl 0')
   else
@@ -86,6 +88,7 @@ Jetpack 'mattn/vim-sonictemplate'
 Jetpack 'plasticboy/vim-markdown'
 Jetpack 'godlygeek/tabular'
 Jetpack 'preservim/nerdtree'
+Jetpack 'glidenote/memolist.vim'
 "Jetpack 'tpope/vim-surround'
 "Jetpack 'kien/ctrlp.vim'
 
