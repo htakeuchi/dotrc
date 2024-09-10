@@ -64,48 +64,22 @@ endfunction
 function! Enable() abort
   if has('mac')
     call system('/path/to/im-select com.justsystems.inputmethod.atok33.Japanese')
-  elseif has('windows')
-    call system('zenhan 1')
-  else
+  elseif has('unix')
     call system('imectrl 1')
+  else
+    call system('zenhan 1')
   endif
 endfunction
 
 function! Disable() abort
   if has('mac')
     call system('/path/to/im-select com.apple.keylayout.ABC')
-  elseif has('windows')
-    call system('zenhan 0')
-  else
+  elseif has('unix')
     call system('imectrl 0')
+  else
+    call system('zenhan 0')
   endif
 endfunction
-
-"if has('unix')
-"    command! ImeOff silent !imectrl 0
-"    command! ImeOn silent !imectrl 1
-"
-"    function! ImeAutoOff()
-"        let w:ime_status=system('imests')
-"       :silent ImeOff
-"    endfunction
-"
-"    function! ImeAutoOn()
-"        if !exists('w:ime_status')
-"            let w:ime_status=0
-"        endif
-"        if w:ime_status == 1
-"            :silent ImeOn
-"        endif
-"    endfunction
-"
-"    " IME off when in insert mode
-"    augroup InsertHook
-"        autocmd!
-"        autocmd InsertLeave * call ImeAutoOff()
-"        autocmd InsertEnter * call ImeAutoOn()
-"    augroup END
-"endif
 
 nnoremap <silent> <Leader>o :<C-u>Unite -vertical -no-quit outline<CR>
 
