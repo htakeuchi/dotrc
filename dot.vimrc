@@ -1,12 +1,13 @@
 set cursorline
-set fileencodings=utf-8,cp932
+set encoding=utf-8
+set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
 set hlsearch
 set incsearch
 set smartindent
-set laststatus=2
+set laststatus=1
 set number
 syntax enable
-colorscheme ron
+colorscheme industry
 
 if has('persistent_undo')
     let undo_path = expand('~/.vim/undo')
@@ -14,24 +15,16 @@ if has('persistent_undo')
     set undofile
 endif
 
-""""""""""""""""""""""""""""""""""""
-" 日本語入力関連
-""""""""""""""""""""""""""""""""""""
-" 行頭へ移動
-cnoremap <C-a> <Home>
-inoremap <C-a> <Home>
-" 行末へ移動
-cnoremap <C-e> <End>
-inoremap <C-e> <End>
-" 単語移動
-inoremap <silent> <C-b> <Cmd>normal! b<CR>
-inoremap <silent> <C-f> <Cmd>normal! w<CR>
-" 行移動
-inoremap <silent> <C-p> <Cmd>normal! gk<CR>
-inoremap <silent> <C-n> <Cmd>normal! gj<CR>
-" 保存
-inoremap <C-s> <C-o>:w<CR>
+" let NERDTreeShowHidden=0
 
+map <C-z> :NERDTreeToggle<CR>
+map <C-a> <Home>
+map <C-e> <End>
+map <silent> <C-p> <Cmd>normal! gk<CR>
+map <silent> <C-n> <Cmd>normal! gj<CR>
+map <C-s> <C-o>:w<CR>
+map <C-l> gt
+map <C-h> gT
 
 let g:is_macos = has('mac')
 nnoremap <silent><expr> <F2> IME_toggle()
@@ -92,8 +85,8 @@ Jetpack 'tani/vim-jetpack', {'opt': 1} "bootstrap
 Jetpack 'mattn/vim-sonictemplate'
 Jetpack 'plasticboy/vim-markdown'
 Jetpack 'godlygeek/tabular'
+Jetpack 'preservim/nerdtree'
 "Jetpack 'tpope/vim-surround'
-"Jetpack 'scrooloose/nerdtree'
 "Jetpack 'kien/ctrlp.vim'
 
 call jetpack#end()
